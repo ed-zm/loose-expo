@@ -1,0 +1,17 @@
+{
+  "name": "loose",
+  "displayName": "loose",
+  "expo": {
+    "name": "loose",
+    "slug": "loose",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
