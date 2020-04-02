@@ -1,19 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react'
+import { NavigationContainer } from '@react-navigation/native';
+import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
+import { createStackNavigator } from '@react-navigation/stack'
+import ConfirmEmail from './src/screens/ConfirmEmail'
+import ConfirmResetPassword from './src/screens/ConfirmResetPassword'
+import ResetPassword from './src/screens/ResetPassword'
+import SignIn from './src/screens/SignIn'
+import SignUp from './src/screens/SignUp'
+import apollo from './src/config/apollo'
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
+const Stack = createStackNavigator();
+
+const Navigator = () => {
+  const client = apollo()
+  return(
+    <ApolloProvider client = { client }>
+    <ApolloHooksProvider client = { client }>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="SignIn">
+          {/* <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />
+          <Stack.Screen name="ConfirmResetPassword" component={ConfirmResetPassword} />
+          <Stack.Screen name="ResetPassword" component={ResetPassword} /> */}
+          <Stack.Screen name="SignIn" component={SignIn} />
+          {/* <Stack.Screen name="SignUp" component={SignUp} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ApolloHooksProvider>
+    </ApolloProvider>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default Navigator
