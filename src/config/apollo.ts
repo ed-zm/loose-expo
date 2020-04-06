@@ -7,12 +7,12 @@ import { setContext } from 'apollo-link-context'
 import { /*split, */ ApolloLink } from 'apollo-link'
 // import { WebSocketLink } from 'apollo-link-ws'
 // import { getMainDefinition } from 'apollo-utilities'
-let apolloClient = null
 let link
 
 const create = () => {
+  console.log('process env', process.env.NODE_ENV)
   const httpLink = new BatchHttpLink({
-    uri: process.env.NODE_ENV === 'production' ? 'http://134.122.82.158:8001' : 'http://localhost:8001',
+    uri: 'http://134.122.82.158:8001',
     // uri: 'http://localhost:8001',
     credentials: 'same-origin'
   })
@@ -64,6 +64,5 @@ const create = () => {
 }
 
 export default () => {
-  if(!apolloClient) apolloClient = create()
-  return apolloClient
+  return create()
 } 
