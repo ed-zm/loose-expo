@@ -17,7 +17,6 @@ interface CreateTaskVariables {
 const Tasks = () => {
   const user = useContext(UserContext)
   const { data } = useQuery(TASKS)
-  console.log("--------------------DATA", data, user)
   const { data: orgs } = useQuery(ORGANIZATIONS)
   const [ createTask ] = useMutation(CREATE_TASK)
   const [ title, setTitle ] = useState('')
