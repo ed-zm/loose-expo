@@ -6,7 +6,6 @@ import { UserContext } from '../../../contexts/User'
 
 const Organizations = () => {
   const user = useContext(UserContext)
-  console.log('-------------USER', user)
   const { data } = useQuery(ORGANIZATIONS)
   const [ createOrganization ] = useMutation(CREATE_ORGANIZATION)
   const [ name, setName ] = useState('')

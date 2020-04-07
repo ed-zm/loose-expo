@@ -71,7 +71,7 @@ const Tasks = () => {
         <TextInput placeholder = 'title' value = {title} onChangeText = { setTitle }/>
         <TextInput placeholder = 'estimated' value = {estimated.toString()} onChangeText = { e => setEstimated(parseInt(e, 10)) }/>
         <TextInput placeholder = 'description' value = {description} onChangeText = { setDescription }/>
-        <Picker onValueChange = {e => setOrganization} selectedValue = {organization}>
+        <Picker onValueChange = {setOrganization} selectedValue = {organization}>
           <Picker.Item label = 'Personal' key = 'personal-task-select' value = {''}>Personal</Picker.Item>
           { orgs &&
             orgs.organizations &&
