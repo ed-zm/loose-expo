@@ -10,15 +10,14 @@ import { /*split, */ ApolloLink } from 'apollo-link'
 let link
 
 const create = () => {
-  console.log('process env', process.env.NODE_ENV)
   const httpLink = new BatchHttpLink({
     uri: 'http://134.122.82.158:8001',
     // uri: 'http://localhost:8001',
     credentials: 'same-origin'
   })
   link = httpLink
-  const authLink = setContext(() => {
-    const tkn = AsyncStorage.getItem("token")
+  const authLink = setContext(async () => {
+    const tkn = await AsyncStorage.getItem("token")
     return {
       headers: {
         Authorization: tkn ? tkn : ''

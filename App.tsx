@@ -25,7 +25,7 @@ const Drawer = createDrawerNavigator()
 
 const DrawerNavigator = () => {
   return(
-    <Drawer.Navigator initialRouteName="Tasks">
+    <Drawer.Navigator initialRouteName="DashboardTasks">
       <Drawer.Screen name="DashboardOrganization" component={DashboardOrganization} />
       <Drawer.Screen name="DashboardOrganizations" component={DashboardOrganizations} />
       <Drawer.Screen name="DashboardTask" component={DashboardTask} />

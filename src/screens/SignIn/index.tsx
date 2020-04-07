@@ -21,6 +21,9 @@ const SignIn = () => {
       redirect()
     }
   }, [data])
+  useEffect(() => {
+    if(user) navigation.navigate('Dashboard')
+  }, [user])
   const onSignIn = async () => {
     const response = await signInMutation({
       variables: {
