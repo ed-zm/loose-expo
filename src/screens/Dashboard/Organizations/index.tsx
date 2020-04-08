@@ -46,7 +46,7 @@ const Organizations = () => {
       <View>
         {data && data.organizations && data.organizations.map(organization =>
           <View key = {organization.id}>
-            <TouchableOpacity onPress = { () => navigation.navigate('DashboardOrganization', { id: organization.id })}>
+            <TouchableOpacity onPress = { () => navigation.navigate('Organization', { id: organization.id })}>
               <Text>{organization.name}</Text>
             </TouchableOpacity>
           </View>

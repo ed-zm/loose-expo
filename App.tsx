@@ -1,7 +1,5 @@
-import React from 'react'
-import { NavigationContainer } from '@react-navigation/native';
-import { ApolloProvider } from 'react-apollo'
-import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
+import React, { useContext } from 'react'
+import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Providers from './src/router/Providers'
@@ -18,21 +16,34 @@ import ResetPassword from './src/screens/ResetPassword'
 import SignIn from './src/screens/SignIn'
 import SignUp from './src/screens/SignUp'
 import apollo from './src/config/apollo'
+import { UserContext } from './src/contexts/User'
 
 const Stack = createStackNavigator();
 
 const Drawer = createDrawerNavigator()
 
+const Dashboard = createStackNavigator()
+
+const DashboardNavigator = () => {
+  const user = useContext(UserContext)
+  return(
+    <Dashboard.Navigator initialRouteName = 'Drawer' screenOptions = {{ headerShown: false }}>
+      <Stack.Screen name="Drawer" component={DrawerNavigator} />
+      <Drawer.Screen name="Organization" component={DashboardOrganization} />
+      <Drawer.Screen name="Task" component={DashboardTask} />
+      <Drawer.Screen name="Team" component={DashboardTeam} />
+      <Drawer.Screen name="User" component={DashboardUser} initialParams = {{ id: user.id }}/>
+    </Dashboard.Navigator>
+  )
+}
+
 const DrawerNavigator = () => {
   return(
-    <Drawer.Navigator initialRouteName="DashboardTasks">
-      <Drawer.Screen name="DashboardOrganization" component={DashboardOrganization} />
-      <Drawer.Screen name="DashboardOrganizations" component={DashboardOrganizations} />
-      <Drawer.Screen name="DashboardTask" component={DashboardTask} />
-      <Drawer.Screen name="DashboardTasks" component={DashboardTasks} />
-      <Drawer.Screen name="DashboardTeam" component={DashboardTeam} />
-      <Drawer.Screen name="DashboardTeams" component={DashboardTeams} />
-      <Drawer.Screen name="DashboardUser" component={DashboardUser} />
+    <Drawer.Navigator initialRouteName="Tasks">
+      <Drawer.Screen name="Organizations" component={DashboardOrganizations} />
+      <Drawer.Screen name="Tasks" component={DashboardTasks} />
+      <Drawer.Screen name="Teams" component={DashboardTeams} />
+      <Drawer.Screen name="My Profile" component={DashboardUser} />
     </Drawer.Navigator>
   )
 }
@@ -43,10 +54,10 @@ const Navigator = () => {
     <Providers client = { client }>
       { ({ initialRouteName }) =>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={initialRouteName}>
+          <Stack.Navigator initialRouteName={initialRouteName} screenOptions = {{ headerShown: false }}>
             <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />
             <Stack.Screen name="ConfirmResetPassword" component={ConfirmResetPassword} />
-            <Stack.Screen name="Dashboard" component={DrawerNavigator} />
+            <Stack.Screen name="Dashboard" component={DashboardNavigator} />
             <Stack.Screen name="ResetPassword" component={ResetPassword} />
             <Stack.Screen name="SignIn" component={SignIn} />
             <Stack.Screen name="SignUp" component={SignUp} />

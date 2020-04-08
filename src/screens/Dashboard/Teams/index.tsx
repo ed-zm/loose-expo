@@ -56,7 +56,7 @@ const Teams = () => {
       <View>
         { data && data.teams && data.teams.map(team =>
           <View>
-            <TouchableWithoutFeedback onPress = { () => navigation.navigate('DashboardTeam') }><Text>{team.name}</Text></TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress = { () => navigation.navigate('Team') }><Text>{team.name}</Text></TouchableWithoutFeedback>
           </View>
         )}
       </View>
