@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react'
 import { View, TextInput, Text, TouchableOpacity } from 'react-native'
 import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useNavigation } from '@react-navigation/native'
 import { ORGANIZATIONS, CREATE_ORGANIZATION } from './index.graphql'
 import { UserContext } from '../../../contexts/User'
 
 const Organizations = () => {
+  const navigation = useNavigation()
   const user = useContext(UserContext)
   const { data } = useQuery(ORGANIZATIONS)
   const [ createOrganization ] = useMutation(CREATE_ORGANIZATION)
@@ -43,7 +45,11 @@ const Organizations = () => {
       </View>
       <View>
         {data && data.organizations && data.organizations.map(organization =>
-          <View key = {organization.id}><Text>{organization.name}</Text></View>
+          <View key = {organization.id}>
+            <TouchableOpacity onPress = { () => navigation.navigate('DashboardOrganization', { id: organization.id })}>
+              <Text>{organization.name}</Text>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
     </View>

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native'
+import { useRoute } from '@react-navigation/native'
 import { View, Text, TouchableOpacity, Picker } from 'react-native'
 import moment from 'moment'
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks'
 import { TEAM, ORGANIZATION_MEMBERS, ADD_MEMBER, REMOVE_MEMBER } from './index.graphql'
 
-const Team = ({ id }) => {
-  const navigation = useNavigation()
+const Team = () => {
+  const { params: { id } } = useRoute()
   const [ member, setMember ] = useState('')
   const { data } = useQuery(TEAM, { variables: { id }})
   const [ addMember, { loading: addingMember }] = useMutation(ADD_MEMBER)

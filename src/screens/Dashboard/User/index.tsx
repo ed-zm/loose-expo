@@ -3,10 +3,12 @@ import { Text, View, Image } from 'react-native'
 // import axios from 'axios'
 // import FileReaderInput from 'react-file-reader-input'
 import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks'
+import { useRoute } from '@react-navigation/native'
 import { USER, GET_S3_SIGNED_URL, CHANGE_PICTURE } from './index.graphql'
 // import Cropper from '../../../components/Cropper'
 
-const User = ({ id }) => {
+const User = () => {
+  const { params: { id } } = useRoute()
   // const [ picture, setPicture ] = useState({
   //   currentPicture: null,
   //   fileType: 'image/jpg',

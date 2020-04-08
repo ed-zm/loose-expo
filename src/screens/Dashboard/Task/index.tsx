@@ -1,13 +1,15 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import moment from 'moment'
+import { useRoute } from '@react-navigation/native'
 import { useQuery } from '@apollo/react-hooks'
 import Assign from './components/Assign'
 import Labels from './components/Labels'
 import Comments from './components/Comments'
 import { TASK } from './index.graphql'
 
-const Task = ({ id }) => {
+const Task = () => {
+  const { params: { id } } = useRoute()
   const where = id.length > 6 ? { id } : { code: id } 
   const { data } = useQuery(TASK, { variables: { where } })
   return(

@@ -30,7 +30,7 @@ const TaskCard = ({ task }) => {
             }
           })
         }}/>
-      <TouchableOpacity onPress = { () => navigation.navigate('Task')}>
+      <TouchableOpacity onPress = { () => navigation.navigate('DashboardTask', { id: task.code })}>
         <Text>{task.code}</Text>
       </TouchableOpacity>
       <View>

@@ -2,7 +2,7 @@ import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks'
 import Contexts from '../contexts'
-import { View, Text } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 
@@ -19,9 +19,9 @@ query {
 
 const RenderChildren = ({ children }) => {
   const { data, error, loading } = useQuery(LOGGED_IN)
+  if(loading) return(<ActivityIndicator />)
   return(
     <Contexts user = { data ? data.loggedIn : null }>
-      { loading && <Text>Loading...</Text>}
       { children({ initialRouteName: data && data.loggedIn ? 'Dashboard' : 'SignIn' }) }
     </Contexts>
   )
