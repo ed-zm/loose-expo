@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react'
 import { View, Text, TouchableOpacity, TextInput } from 'react-native'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import moment from 'moment'
-import { UserContext } from '../../../../../contexts/User'
+import { UserContext } from 'loose-components/src/contexts/User'
 import { COMMENTS, CREATE_COMMENT } from './index.graphql'
 
 

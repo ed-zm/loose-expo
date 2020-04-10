@@ -8,7 +8,9 @@ import { USER, GET_S3_SIGNED_URL, CHANGE_PICTURE } from './index.graphql'
 // import Cropper from '../../../components/Cropper'
 
 const User = () => {
-  const { params: { id } } = useRoute()
+  const id = '123'
+  const route = useRoute()
+  console.log('ROUTE', route)
   // const [ picture, setPicture ] = useState({
   //   currentPicture: null,
   //   fileType: 'image/jpg',

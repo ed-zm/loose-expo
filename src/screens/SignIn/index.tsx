@@ -3,7 +3,7 @@ import { AsyncStorage, View, Text, TextInput, TouchableOpacity } from "react-nat
 import { useMutation, useLazyQuery } from '@apollo/react-hooks'
 import { useNavigation } from '@react-navigation/native'
 import { SIGN_IN, LOGGED_IN } from './index.graphql'
-import { UserContext } from '../../contexts/User'
+import { UserContext } from 'loose-components/src/contexts/User'
 
 const SignIn = () => {
   const user = useContext(UserContext)

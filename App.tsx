@@ -5,18 +5,18 @@ import { createDrawerNavigator } from '@react-navigation/drawer'
 import Providers from './src/router/Providers'
 import ConfirmEmail from './src/screens/ConfirmEmail'
 import ConfirmResetPassword from './src/screens/ConfirmResetPassword'
-import DashboardOrganization from './src/screens/Dashboard/Organization'
-import DashboardOrganizations from './src/screens/Dashboard/Organizations'
-import DashboardTask from './src/screens/Dashboard/Task'
-import DashboardTasks from './src/screens/Dashboard/Tasks'
-import DashboardTeam from './src/screens/Dashboard/Team'
-import DashboardTeams from './src/screens/Dashboard/Teams'
-import DashboardUser from './src/screens/Dashboard/User'
+import Organization from './src/screens/Dashboard/Organization'
+import Organizations from './src/screens/Dashboard/Organizations'
+import Task from './src/screens/Dashboard/Task'
+import Tasks from './src/screens/Dashboard/Tasks'
+import Team from './src/screens/Dashboard/Team'
+import Teams from './src/screens/Dashboard/Teams'
+import User from './src/screens/Dashboard/User'
 import ResetPassword from './src/screens/ResetPassword'
 import SignIn from './src/screens/SignIn'
 import SignUp from './src/screens/SignUp'
 import apollo from './src/config/apollo'
-import { UserContext } from './src/contexts/User'
+import { UserContext } from 'loose-components/src/contexts/User'
 
 const Stack = createStackNavigator();
 
@@ -25,14 +25,14 @@ const Drawer = createDrawerNavigator()
 const Dashboard = createStackNavigator()
 
 const DashboardNavigator = () => {
-  const user = useContext(UserContext)
+  // const user = useContext(UserContext)
   return(
     <Dashboard.Navigator initialRouteName = 'Drawer' screenOptions = {{ headerShown: false }}>
       <Stack.Screen name="Drawer" component={DrawerNavigator} />
-      <Drawer.Screen name="Organization" component={DashboardOrganization} />
-      <Drawer.Screen name="Task" component={DashboardTask} />
-      <Drawer.Screen name="Team" component={DashboardTeam} />
-      <Drawer.Screen name="User" component={DashboardUser} initialParams = {{ id: user.id }}/>
+      <Drawer.Screen name="Organization" component={Organization} />
+      <Drawer.Screen name="Task" component={Task} />
+      <Drawer.Screen name="Team" component={Team} />
+      <Drawer.Screen name="User" component={User} />
     </Dashboard.Navigator>
   )
 }
@@ -40,10 +40,10 @@ const DashboardNavigator = () => {
 const DrawerNavigator = () => {
   return(
     <Drawer.Navigator initialRouteName="Tasks">
-      <Drawer.Screen name="Organizations" component={DashboardOrganizations} />
-      <Drawer.Screen name="Tasks" component={DashboardTasks} />
-      <Drawer.Screen name="Teams" component={DashboardTeams} />
-      <Drawer.Screen name="My Profile" component={DashboardUser} />
+      <Drawer.Screen name="Organizations" component={Organizations} />
+      <Drawer.Screen name="Tasks" component={Tasks} />
+      <Drawer.Screen name="Teams" component={Teams} />
+      <Drawer.Screen name="My Profile" component={User} />
     </Drawer.Navigator>
   )
 }

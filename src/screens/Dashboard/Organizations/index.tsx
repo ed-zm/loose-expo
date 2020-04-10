@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity } from 'react-native'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { useNavigation } from '@react-navigation/native'
 import { ORGANIZATIONS, CREATE_ORGANIZATION } from './index.graphql'
-import { UserContext } from '../../../contexts/User'
+import { UserContext } from 'loose-components/src/contexts/User'
 
 const Organizations = () => {
   const navigation = useNavigation()

@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native'
 import { View, Text, TextInput, Picker, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { TEAMS, CREATE_TEAM, ORGANIZATIONS } from './index.graphql'
-import { UserContext } from '../../../contexts/User'
+import { UserContext } from 'loose-components/src/contexts/User'
 
 const Teams = () => {
   const user = useContext(UserContext)
