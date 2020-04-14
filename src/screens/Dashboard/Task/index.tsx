@@ -1,17 +1,19 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import moment from 'moment'
+import useTask from 'loose-components/src/screens/Dashboard/Task'
 import { useRoute } from '@react-navigation/native'
-import { useQuery } from '@apollo/react-hooks'
 import Assign from './components/Assign'
 import Labels from './components/Labels'
 import Comments from './components/Comments'
-import { TASK } from './index.graphql'
 
 const Task = () => {
   const { params: { id } } = useRoute()
-  const where = id.length > 6 ? { id } : { code: id } 
-  const { data } = useQuery(TASK, { variables: { where } })
+  const {
+    data,
+    loading,
+    error
+  } = useTask({ id })
   return(
     <View>
       { data && data.task &&

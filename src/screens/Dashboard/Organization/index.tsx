@@ -1,13 +1,13 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import { useRoute } from '@react-navigation/native'
-import { useQuery } from '@apollo/react-hooks'
-import { ORGANIZATION } from './index.graphql'
-import { from } from 'apollo-link'
+import useOrganization from 'loose-components/src/screens/Dashboard/Organization'
 
 const Organization = () => {
   const { params: { id }} = useRoute()
-  const { data } = useQuery(ORGANIZATION, { variables: { id } })
+  const {
+    data
+  } = useOrganization({ id })
   return(
     <View>
       <View>

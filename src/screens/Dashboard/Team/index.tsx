@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useRoute } from '@react-navigation/native'
 import { View, Text, TouchableOpacity, Picker } from 'react-native'
+import useTeam from 'loose-components/src/screens/Dashboard/Team'
 import moment from 'moment'
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks'
-import { TEAM, ORGANIZATION_MEMBERS, ADD_MEMBER, REMOVE_MEMBER } from './index.graphql'
 
 const Team = () => {
   const { params: { id } } = useRoute()
-  const [ member, setMember ] = useState('')
-  const { data } = useQuery(TEAM, { variables: { id }})
-  const [ addMember, { loading: addingMember }] = useMutation(ADD_MEMBER)
-  const [ removeMember, { loading: removingMember }] = useMutation(REMOVE_MEMBER)
-  const [ organizationMembersQuery, { data: members, refetch: refetchOrganizationMembers }] = useLazyQuery(ORGANIZATION_MEMBERS)
-  useEffect(() => {
-    if(data && data.team) {
-      organizationMembersQuery({ variables: {
-        teamId: data.team.id,
-        organizationId: data.team.organization.id
-      }})
-    }
-  }, [data])
-  useEffect(() => {
-    if(members && !!members.users.length) setMember(members.users[0].id)
-  }, [members])
+  const {
+		data,
+		removingMember,
+		addingMember,
+		onRemoveMember,
+		onAddMember,
+		member,
+		setMember,
+		members
+  } = useTeam({ id })
   return(
     <View>
       { data && data.team &&
@@ -35,15 +28,7 @@ const Team = () => {
               <View>
                 <Text>{member.firstName} {member.lastName}</Text>
                 <TouchableOpacity
-                  onPress = {async () => {
-                    await removeMember({ variables: {
-                      teamId: data.team.id,
-                      memberId: member.id
-                    }})
-                    await refetchOrganizationMembers({
-                      fetchPolicy: 'cache-and-network'
-                    })
-                  }}
+                  onPress = {onRemoveMember}
                   disabled = { removingMember }
                 >
                   <Text>remove</Text>
@@ -60,18 +45,7 @@ const Team = () => {
               )}
             </Picker>
             <TouchableOpacity
-              onPress = {async () => {
-                await addMember({
-                  variables: {
-                    teamId: data.team.id,
-                    memberId: member
-                  }
-                })
-                await setMember('')
-                await refetchOrganizationMembers({
-                  fetchPolicy: 'cache-and-network'
-                })
-              }}
+              onPress = {onAddMember}
               disabled = { addingMember }
             >
               <Text>Add Member</Text>

@@ -1,42 +1,16 @@
-import React, { useState, useContext } from 'react'
+import React from 'react'
 import { View, TextInput, Text, TouchableOpacity } from 'react-native'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import useOrganizations from 'loose-components/src/screens/Dashboard/Organizations'
 import { useNavigation } from '@react-navigation/native'
-import { ORGANIZATIONS, CREATE_ORGANIZATION } from './index.graphql'
-import { UserContext } from 'loose-components/src/contexts/User'
 
 const Organizations = () => {
   const navigation = useNavigation()
-  const user = useContext(UserContext)
-  const { data } = useQuery(ORGANIZATIONS)
-  const [ createOrganization ] = useMutation(CREATE_ORGANIZATION)
-  const [ name, setName ] = useState('')
-  const onCreateOrganization = async () => {
-    createOrganization({ variables: {
-      name,
-      userId: user.id
-    },
-    optimisticResponse: {
-      __typename: 'Mutation',
-      createOrganization: {
-        __typename: "Organization",
-        id: "-1",
-        name,
-        owner: {
-          id: user.id,
-          __typename: "User"
-        }
-      }
-    },
-    update: (proxy, { data: { createOrganization }}) => {
-      const data = proxy.readQuery({ query: ORGANIZATIONS })
-      // @ts-ignore
-      const newOrganizations = data.organizations.slice()
-      newOrganizations.push(createOrganization)
-      proxy.writeQuery({ query: ORGANIZATIONS, data: { organizations: newOrganizations }})
-    }
-  })
-  }
+  const {
+    onCreateOrganization,
+    name,
+    setName,
+    data
+  } = useOrganizations()
   return(
     <View>
       <View>

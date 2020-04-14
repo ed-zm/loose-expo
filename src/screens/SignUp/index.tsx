@@ -1,29 +1,25 @@
 import React, { useState } from 'react'
 import { Text, View, TouchableOpacity, TextInput } from 'react-native'
-import { useMutation } from '@apollo/react-hooks'
-import { SIGN_UP } from './index.graphql'
+import { useNavigation } from '@react-navigation/native'
+import useSignUp from 'loose-components/src/screens/SignUp'
 
 const SignUp = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [username, setUsername] = useState('')
-  const [signUpMutation, { data }] = useMutation(SIGN_UP)
-  const onSignUp = async () => {
-    const signedUp = await signUpMutation({
-      variables: {
-        email,
-        password,
-        firstName,
-        lastName,
-        username
-      }
-    })
-    if(signedUp) {
-    //   router.push('/sign-in')
-    }
-  }
+  const navigation = useNavigation()
+  const {
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
+    username,
+    setUsername,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    onSignUp
+  } = useSignUp({
+    callback: navigation.navigate('SignIn')
+  })
   return(
     <View>
       <TextInput value = {firstName} placeholder = 'firstName' onChange = {(e: any) => setFirstName(e.target.value) } />

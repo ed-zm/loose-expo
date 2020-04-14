@@ -1,46 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { View, Text, TextInput, Picker, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { TEAMS, CREATE_TEAM, ORGANIZATIONS } from './index.graphql'
-import { UserContext } from 'loose-components/src/contexts/User'
+import useTeams from 'loose-components/src/screens/Dashboard/Teams'
 
 const Teams = () => {
-  const user = useContext(UserContext)
-  const { data } = useQuery(TEAMS)
+  const {
+    name,
+    setName,
+    organization,
+    setOrganization,
+    orgs,
+    onCreateTeam,
+    creatingTeam,
+    data
+  } = useTeams()
   const navigation = useNavigation()
-  const { data: orgs } = useQuery(ORGANIZATIONS)
-  const [ createTeam, { loading: creatingTeam } ] = useMutation(CREATE_TEAM)
-  const [ organization, setOrganization ] = useState('')
-  const [ name, setName ] = useState('')
-  useEffect(() => {
-    if(orgs && !!orgs.organizations.length) {
-      setOrganization(orgs.organizations[0].id)
-    }
-  }, [orgs])
-  const onCreateTeam = async () => {
-    createTeam({
-      variables: {
-        organizationId: organization,
-        name
-      },
-      optimisticResponse: {
-        __typename: "Mutation",
-        createTeam: {
-          __typename: "Team",
-          id: "-1",
-          name
-        }
-      },
-      update: (proxy, { data: { createTeam }}) => {
-        const data = proxy.readQuery({ query: TEAMS })
-        //@ts-ignore
-        const newTeams = data.teams.slice()
-        newTeams.push(createTeam)
-        proxy.writeQuery({ query: TEAMS, data: { teams: newTeams } })
-      }
-    })
-  }
   return(
     <View>
       <TextInput placeholder = 'name' value = {name} onChangeText = { setName }/>

@@ -1,13 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import { LABELS, ADD_LABEL } from './index.graphql'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import useTaskLabels from 'loose-components/src/screens/Dashboard/Task/components/Labels'
 
 const Labels = ({ task }) => {
-  const [ label, setLabel ] = useState('')
-  const organizationId = task.organization ? task.organization.id : null
-  const { data } = useQuery(LABELS, { variables: { taskId: task.id, organizationId }, skip: !organizationId})
-  const [ addLabel, { loading: creatingLabel }] = useMutation(ADD_LABEL)
+  const {
+    onAddLabel,
+    data,
+    label,
+    setLabel,
+    creatingLabel,
+    organizationId
+  } = useTaskLabels({ task })
   return(
     <View>
       <View>
@@ -18,34 +22,7 @@ const Labels = ({ task }) => {
       </View>
       <TextInput value = {label} onChangeText = { setLabel } />
       { organizationId && <TouchableOpacity
-        onPress = { async () => {
-          await addLabel({
-            variables: { taskId: task.id, text: `${label}-${organizationId.id}`, organizationId },
-            optimisticResponse: {
-              __typename: "Mutation",
-              createLabel: {
-                __typename: "Label",
-                id: -1,
-                color: "green",
-                text: `${label}-${organizationId}`,
-                organization: {
-                  __typename: "Organization",
-                  id: organizationId
-                }
-              }
-            },
-            update: (proxy, { data: { createLabel } }) => {
-              const proxyData: any = proxy.readQuery({ query: LABELS, variables: { taskId: task.id, organizationId } })
-              const newLabels = proxyData.labels.slice()
-              const labelExists = newLabels.find(label => label.text === createLabel.text )
-              if(!labelExists) {
-                newLabels.push(createLabel)
-                proxy.writeQuery({ query: LABELS, variables: { taskId: task.id, organizationId }, data: { labels: newLabels } })
-              }
-            }
-          })
-          await setLabel('')
-        }}
+        onPress = {onAddLabel}
         disabled = { creatingLabel }
       >
         <Text>add label</Text>

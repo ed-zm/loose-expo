@@ -3,7 +3,6 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import Providers from './src/router/Providers'
-import ConfirmEmail from './src/screens/ConfirmEmail'
 import ConfirmResetPassword from './src/screens/ConfirmResetPassword'
 import Organization from './src/screens/Dashboard/Organization'
 import Organizations from './src/screens/Dashboard/Organizations'
@@ -55,7 +54,6 @@ const Navigator = () => {
       { ({ initialRouteName }) =>
         <NavigationContainer>
           <Stack.Navigator initialRouteName={initialRouteName} screenOptions = {{ headerShown: false }}>
-            <Stack.Screen name="ConfirmEmail" component={ConfirmEmail} />
             <Stack.Screen name="ConfirmResetPassword" component={ConfirmResetPassword} />
             <Stack.Screen name="Dashboard" component={DashboardNavigator} />
             <Stack.Screen name="ResetPassword" component={ResetPassword} />
