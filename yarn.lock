@@ -5712,9 +5712,9 @@ logkitty@^0.6.0:
     dayjs "^1.8.15"
     yargs "^12.0.5"
 
-"loose-components@git+ssh://git@github.com:loose-dev/loose-components.git":
+"loose-components@git+ssh://git@github.com:loose-dev/loose-components.git#1.0.3":
   version "1.0.0"
-  resolved "git+ssh://git@github.com:loose-dev/loose-components.git#e792564ce61b7505366d99512143763bb6905e87"
+  resolved "git+ssh://git@github.com:loose-dev/loose-components.git#86b6c7cd1e9555b6acf9e6195bed3ffa75510749"
 
 loose-envify@^1.0.0, loose-envify@^1.1.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
   version "1.4.0"
