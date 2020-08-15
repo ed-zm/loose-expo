@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { View } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { createDrawerNavigator } from '@react-navigation/drawer'
@@ -50,19 +51,19 @@ const DrawerNavigator = () => {
 const Navigator = () => {
   const client = apollo()
   return(
-    <Providers client = { client }>
-      { ({ initialRouteName }) =>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName={initialRouteName} screenOptions = {{ headerShown: false }}>
-            <Stack.Screen name="ConfirmResetPassword" component={ConfirmResetPassword} />
-            <Stack.Screen name="Dashboard" component={DashboardNavigator} />
-            <Stack.Screen name="ResetPassword" component={ResetPassword} />
-            <Stack.Screen name="SignIn" component={SignIn} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      }
-    </Providers>
+      <Providers client = { client }>
+        { ({ initialRouteName }) =>
+          <NavigationContainer>
+            <Stack.Navigator initialRouteName={initialRouteName} screenOptions = {{ headerShown: false }}>
+              <Stack.Screen name="ConfirmResetPassword" component={ConfirmResetPassword} />
+              <Stack.Screen name="Dashboard" component={DashboardNavigator} />
+              <Stack.Screen name="ResetPassword" component={ResetPassword} />
+              <Stack.Screen name="SignIn" component={SignIn} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        }
+      </Providers>
   )
 }
 

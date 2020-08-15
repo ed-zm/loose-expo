@@ -10,13 +10,19 @@ const SignIn = () => {
     setEmail,
     password,
     setPassword,
-    onSignIn
+    onSignIn,
+    signingIn,
+    error,
+    onResendVerificationEmail,
+    resendingVerificationEmail,
+    resendVerificationEmailError,
+    resendVerificationEmailSent,
   } = useSignIn({
-    callback: () => navigation.navigate('SignIn'),
-    setToken: AsyncStorage.setItem
+    callback: () => navigation.navigate('Dashboard'),
+    setToken: (token) => AsyncStorage.setItem('token', token)
   })
   return(
-    <View>
+    <View style = {{ paddingTop: 100 }}>
       <TextInput onChangeText = { setEmail } value = {email } placeholder = 'email' />
       <TextInput value = {password} placeholder = 'password' secureTextEntry onChangeText = { setPassword } />
       <TouchableOpacity onPress = { onSignIn }>

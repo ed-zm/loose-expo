@@ -19,6 +19,7 @@ query {
 
 const RenderChildren = ({ children }) => {
   const { data, error, loading } = useQuery(LOGGED_IN)
+  console.log(data, error)
   if(loading) return(<ActivityIndicator />)
   return(
     <Contexts user = { data ? data.loggedIn : null }>
