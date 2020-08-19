@@ -7,7 +7,7 @@ const List = ({ items = [], loading = false, renderItem, onFetchMore = () => {},
     <SafeAreaView>
       <FlatList
         data={items}
-        renderItem={ item => renderItem(renderItem)}
+        renderItem={ ({ item }) => renderItem(item)}
         keyExtractor={item => item.id}
       />
     </SafeAreaView>
