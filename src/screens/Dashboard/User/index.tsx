@@ -1,86 +1,89 @@
-import React, { useState, useEffect } from 'react'
-import { Text, View, Image } from 'react-native'
-// import axios from 'axios'
-// import FileReaderInput from 'react-file-reader-input'
-import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks'
-import { useRoute } from '@react-navigation/native'
-import { USER, GET_S3_SIGNED_URL, CHANGE_PICTURE } from './index.graphql'
-// import Cropper from '../../../components/Cropper'
+import React, { useContext } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import Button from "../../../components/Button";
+import useUser from "loose-components/src/screens/Dashboard/User";
+import TextArea from "../../../components/TextArea";
+import TeamsList from "../../../components/Lists/Teams";
+import TasksList from "../../../components/Lists/Tasks";
+import OrganizationsList from "../../../components/Lists/Organizations";
+import { UserContext } from "loose-components/src/contexts/User";
 
-const User = () => {
-  const id = '123'
-  const route = useRoute()
-  console.log('ROUTE', route)
-  // const [ picture, setPicture ] = useState({
-  //   currentPicture: null,
-  //   fileType: 'image/jpg',
-  // })
-  // const [ openCropper, setOpenCropper ] = useState(false)
-  // const { currentPicture, fileType } = picture
-  const { data } = useQuery(USER, { variables: { id } })
-  // const [ getS3SignedUrl, { data: s3Url, error, loading }] = useLazyQuery(GET_S3_SIGNED_URL)
-  // const [ changePicture ] = useMutation(CHANGE_PICTURE)
-  // useEffect(() => {
-  //   let s3Key
-  //   if(s3Url) {
-  //     const extension = picture.fileType.split('/')
-  //     s3Key = `${data.user.id}.${extension[1]}`
-  //     new Promise( async resolve => {
-  //       const res = await axios.put(s3Url.getS3SignedUrl, picture.currentPicture, { headers: { 'Content-Type': fileType } })
-  //       resolve(res)
-  //     })
-  //     .then((res: any) => {
-  //       if(res.status === 200) {
-  //         return changePicture({
-  //           variables: {
-  //             id: data.user.id,
-  //             avatar: `https://s3.eu-west-1.amazonaws.com/dev.loose.www.avatars/${s3Key}`
-  //           }
-  //         })
-  //       } else {
-  //         throw new Error('An error occured uploading your image')
-  //       }
-  //     })
-  //     .then(async res => {
-  //       await setPicture({currentPicture: null, fileType: 'image/jpg'})
-  //     console.log('Success')
-  //     })
-  //     .catch(() => {})
-  //   }
-  // }, [s3Url])
+const User = ({ route: { params } }) => {
+  const currentUser = useContext(UserContext);
+  const {
+    user,
+    tab,
+    setTab,
+    isYou,
+    edit,
+    setEdit,
+    bio,
+    setBio,
+    onUpdateProfile,
+    updatingProfile,
+  } = useUser({
+    id: params && params.id ? params.id : currentUser.id,
+  });
 
-  // const changeProfilePicture = picture => {
-  //   const file = picture.map(res => res[0].target.result)
-  //   const currentPicture = file && file[0]
-  //   setPicture({currentPicture, fileType: picture[0][1].type})
-  // }
-
-  // const savePicture = async (blob) => {
-  //   await getS3SignedUrl({
-  //     variables: {
-  //       operation: 'putObject',
-  //       fileType: fileType,
-  //       id: data.user.id
-  //     }
-  //   })
-  // }
-  return(
+  return (
     <View>
-        {data && data.user &&
+      {user && (
+        <View>
+          <Image
+            source={{ uri: user.avatar || "/default_profile.png" }}
+            width={260}
+            height={260}
+          />
           <View>
-            <Image source = {data.user.avatar || '/static/default_profile.png'} width = {30} height = {30}/>
-            <View><Text>{ data.user.email }</Text></View>
-            <View><Text>{ data.user.username }</Text></View>
-            <View><Text>{ data.user.firstName }</Text></View>
-            <View><Text>{ data.user.lastName }</Text></View>
-            {/* <FileReaderInput type='file' onChange={ (e, pic) => changeProfilePicture(pic) } /> */}
+            <Text>{`${user.firstName} ${user.lastName}`}</Text>
+            <Text>{user.username}</Text>
           </View>
-        }
-        {/* currentPicture && fileType && <Cropper closeCropper = { async () => {
-          setPicture({currentPicture: null, fileType: 'image/jpg'})
-        } } src = { currentPicture } fileType = { fileType } savePicture = { savePicture }/> */}
+          {edit ? (
+            <TextArea value={bio} onChange={setBio} />
+          ) : (
+            <Text>{user.biography}</Text>
+          )}
+          {isYou && (
+            <React.Fragment>
+              {edit && (
+                <Button
+                  title="Update"
+                  onClick={onUpdateProfile}
+                  disabled={updatingProfile}
+                />
+              )}
+              <Button
+                title={edit ? "Cancel" : "Edit Profile"}
+                type="button"
+                onClick={() => {
+                  setEdit(!edit);
+                }}
+                disabled={updatingProfile}
+              />
+            </React.Fragment>
+          )}
+        </View>
+      )}
+      <View>
+        <View>
+          <View>
+            <TouchableOpacity onPress={() => setTab("TASKS")}>
+              <Text>Tasks</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setTab("ORGANIZATIONS")}>
+              <Text>Organizations</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => setTab("TEAMS")}>
+              <Text> Teams</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        {tab === "TASKS" && <TasksList />}
+        {tab === "ORGANIZATIONS" && <OrganizationsList />}
+        {tab === "TEAMS" && <TeamsList />}
+      </View>
     </View>
-  )
-}
+  );
+};
 
-export default User
+export default User;
