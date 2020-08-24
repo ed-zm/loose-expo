@@ -3,7 +3,6 @@ import { View, Text } from "react-native";
 import TextArea from "../../TextArea";
 import Input from "../../Input";
 import Button from "../../Button";
-import Select, { Option } from "../../Select";
 import UsersList from "../../Lists/Users";
 import useCreateTask from "loose-components/src/components/Modals/CreateTask";
 import OrganizationSelect from "../../OrganizationSelect";
@@ -51,7 +50,7 @@ const CreateTask = ({ tasks, variables, closeModal }) => {
         organization={organization}
         setOrganization={setOrganization}
       />
-      {organization && (
+      {!!organization && (
         <React.Fragment>
           <View>
             <input

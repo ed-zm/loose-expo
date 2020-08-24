@@ -17,6 +17,7 @@ import SignIn from "./src/screens/SignIn";
 import SignUp from "./src/screens/SignUp";
 import apollo from "./src/config/apollo";
 import { UserContext } from "loose-components/src/contexts/User";
+import Modal from "./src/components/Modals";
 
 const Stack = createStackNavigator();
 
@@ -28,10 +29,14 @@ const DashboardNavigator = () => {
   // const user = useContext(UserContext)
   return (
     <Dashboard.Navigator
-      initialRouteName="Drawer"
-      screenOptions={{ headerShown: false }}
+      initialRouteName="Loose Dev"
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "transparent",
+        },
+      }}
     >
-      <Stack.Screen name="Drawer" component={DrawerNavigator} />
+      <Stack.Screen name="Loose Dev" component={DrawerNavigator} />
       <Drawer.Screen name="Organization" component={Organization} />
       <Drawer.Screen name="Task" component={Task} />
       <Drawer.Screen name="Team" component={Team} />
@@ -56,21 +61,26 @@ const Navigator = () => {
   return (
     <Providers client={client}>
       {({ initialRouteName }) => (
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={initialRouteName}
-            screenOptions={{ headerShown: false }}
-          >
-            <Stack.Screen
-              name="ConfirmResetPassword"
-              component={ConfirmResetPassword}
-            />
-            <Stack.Screen name="Dashboard" component={DashboardNavigator} />
-            <Stack.Screen name="ResetPassword" component={ResetPassword} />
-            <Stack.Screen name="SignIn" component={SignIn} />
-            <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <React.Fragment>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={initialRouteName}
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen
+                name="ConfirmResetPassword"
+                component={ConfirmResetPassword}
+              />
+              <Stack.Screen name="Dashboard" component={DashboardNavigator} />
+              <Stack.Screen name="ResetPassword" component={ResetPassword} />
+              <Stack.Screen name="SignIn" component={SignIn} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+            </Stack.Navigator>
+          </NavigationContainer>
+          <Modal />
+        </React.Fragment>
       )}
     </Providers>
   );

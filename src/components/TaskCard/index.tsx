@@ -13,52 +13,50 @@ import { UPDATE_TASK } from "./index.graphql";
 import styles from "./styles";
 
 const TaskCard = ({ task }) => {
-  const [showDescription, setShowDescription] = useState(false);
   const [updateTask] = useMutation(UPDATE_TASK);
   const navigation = useNavigation();
   const style = styles(task);
   return (
     <View style={style.container}>
-      <CheckBox
-        value={task.state === 1 ? true : false}
-        onValueChange={() => {
-          const state = task.state === 0 ? 1 : 0;
-          updateTask({
-            variables: {
-              id: task.id,
-              state,
-            },
-            optimisticResponse: {
-              __typename: "Mutation",
-              updateTask: {
-                __typename: "Task",
+      <View></View>
+      <View style={style.header}>
+        <CheckBox
+          value={task.state === 1 ? true : false}
+          onValueChange={() => {
+            const state = task.state === 0 ? 1 : 0;
+            updateTask({
+              variables: {
                 id: task.id,
                 state,
               },
-            },
-          });
-        }}
-      />
-      <TouchableOpacity
-        onPress={() => navigation.navigate("Task", { id: task.code })}
-      >
-        <Text>{task.code}</Text>
-      </TouchableOpacity>
-      <View>
-        <TouchableWithoutFeedback
-          onPress={() => setShowDescription(!showDescription)}
+              optimisticResponse: {
+                __typename: "Mutation",
+                updateTask: {
+                  __typename: "Task",
+                  id: task.id,
+                  state,
+                },
+              },
+            });
+          }}
+        />
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Task", { id: task.code })}
         >
-          <Text>{task.title}</Text>
-        </TouchableWithoutFeedback>
+          <View style={style.titleContainer}>
+            <Text style={style.titleText}>{task.title}</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      {false && showDescription && (
-        <View>
-          <Text>{task.description}</Text>
-        </View>
-      )}
-      <View>
-        <Text>{moment(task.createdAt).format("DD/MMM/YYYY HH:mm")}</Text>
-      </View>
+      <Text>
+        Created By{" "}
+        {`${task.createdBy.firstName} ${task.createdBy.lastName} (@${task.createdBy.username})`}
+      </Text>
+      <Text>
+        {!!task.assignedTo
+          ? `Assigned To ${task.assignedTo.firstName} ${task.assignedTo.lastName} (@${task.assignedTo.username})`
+          : `Unassigned`}
+      </Text>
     </View>
   );
 };
